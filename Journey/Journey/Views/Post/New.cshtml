@@ -1,0 +1,50 @@
+﻿@model Journey.Models.Post
+
+@{
+    ViewBag.Titlu = "Adaugare postare";
+}
+
+<h2>@ViewBag.Titlu</h2>
+<br />
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+@using (Html.BeginForm("New", "Post", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(m => m.UserId)
+
+    @Html.Label("Description", "Descriere Postare")
+    <br />
+    @Html.TextBox("Description", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+    <br />
+    <br />
+    <br />
+
+    @Html.HiddenFor(m => m.Photo)
+    @Html.LabelFor(m => m.Photo)
+    <input id="img-input" name="photoFile" type="file" style="display: none;" />
+    <img src="/Images/1.jpg" class="img-thumbnail img-size" onclick="$('#img-input').click();" />
+
+    <br />
+    <br />
+
+    @Html.Hidden("Date", DateTime.Now, new { @class = "form-control" })
+
+    <label>Selectati categoria</label>
+
+    @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "Value", "Text"),
+        "Selectati categoria", new { @class = "form-control" })
+
+    @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+    <br />
+
+    <button class="btn btn-sm btn-success" type="submit">Adauga postare</button>
+}
+

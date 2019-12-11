@@ -1,0 +1,33 @@
+﻿@model Journey.Models.Post
+
+@{
+    ViewBag.Title = "Afisare postare";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="panel panel-default">
+    @Html.Partial("PostInfo", Model)
+
+    @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
+        || ViewBag.esteAdmin)
+    {
+
+        <div class="panel-footer article-panel-footer">
+            <a class="btn btn-primary" href="/Post/Edit/@Model.PostId">Modifica postare</a>
+
+            @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
+            || ViewBag.esteAdmin)
+            {
+
+                using (Html.BeginForm(actionName: "Delete", controllerName: "Post", method: FormMethod.Post, routeValues: new { id = @Model.PostId }))
+                {
+
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger" type="submit">Sterge postare</button>
+
+                }
+            }
+        </div>
+    }
+</div>

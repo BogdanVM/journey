@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container" id="home-images">
+    <div class="row">
+        @foreach(var post in ViewBag.Posts)
+        {
+            <img src=@Url.Content("~/Images/" + post.Photo) />
+        }
+    </div>
+</div>

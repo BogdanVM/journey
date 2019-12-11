@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Postarile mele";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@foreach (Journey.Models.Post post in ViewBag.Posts)
+{
+<div class="panel panel-default">
+    @Html.Hidden("PostId", post.PostId)
+
+    <h3> @post.Description </h3>
+    <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size"/>
+
+    <a class="btn btn-success" href="/Post/Show/@post.PostId">Afisare postare</a>
+    <a class="btn btn-success" href="/Post/Edit/@post.PostId">Editare postare</a>
+</div>
+    <br />
+}
+
+<a class="btn btn-sm btn-success" href="/Post/New">Adauga o noua postare</a>
