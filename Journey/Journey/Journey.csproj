@@ -265,6 +265,10 @@
     <Content Include="Views\Post\Show.cshtml" />
     <Content Include="Views\Shared\PostInfo.cshtml" />
     <Content Include="Views\Post\Edit.cshtml" />
+    <Content Include="Views\Album\Edit.cshtml" />
+    <Content Include="Views\Album\Show.cshtml" />
+    <Content Include="Views\Shared\AlbumInfo.cshtml" />
+    <Content Include="Views\Post\AddToAlbum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

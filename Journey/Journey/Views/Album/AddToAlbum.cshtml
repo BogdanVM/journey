@@ -1,0 +1,32 @@
+﻿@model Journey.Models.Album
+
+@{
+    ViewBag.Title = "Adaugati postari la album";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+@using (Html.BeginForm(actionName: "AddToAlbum", controllerName: "Album"))
+{
+    @foreach (Journey.Models.Post post in ViewBag.Posts)
+    {
+        <div class="panel panel-default">
+            @Html.Hidden("AlbumId", Model.AlbumId)
+            @Html.Hidden("Name", Model.Name)
+
+            @Html.Hidden("PostId", post.PostId)
+
+            <h3> @post.Description </h3>
+
+            <img src="~/Images/@post.Photo" class="img-thumbnail img-size" />
+
+            <button type="submit" class="btn btn-success">Adauga la album </button>
+        </div>
+        <br />
+    }
+}

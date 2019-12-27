@@ -1,7 +1,30 @@
-﻿
+﻿@model Journey.Models.Album
+
 @{
-    ViewBag.Title = "New";
+    ViewBag.Title = "Nou album";
 }
 
-<h2>New</h2>
+<h2>@ViewBag.Title</h2>
 
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+@using (Html.BeginForm("New", "Album"))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(m => m.UserId)
+
+    @Html.Label("Name", "Nume album")
+    <br />
+
+    @Html.TextBox("Name", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+
+    <br />
+
+    <button class="btn btn-sm btn-success" type="submit">Creeaza album</button>
+    <a href="/Album/Index/" class="btn btn-sm btn-primary"> Inapoi </a>
+}

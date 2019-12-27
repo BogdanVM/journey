@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Adaugati o noua postare la album";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+@using (Html.BeginForm("AddToAlbum", "Post"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    foreach (Journey.Models.Post post in ViewBag.Posts)
+    {
+        @Html.Hidden("PostId", post.PostId)
+        @Html.Hidden("AlbumId", ViewContext.RouteData.Values["id"])
+
+        <div class="panel">
+            <div class="panel-heading article-heading">
+                <span class="font-roboto article-title">@post.Description</span>
+            </div>
+
+            <div class="panel-body">
+                <br />
+                <div class="article-content-wrapper">
+                    <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size" />
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <br />
+                <button type="submit" class="btn btn-danger">
+                    Adauga
+                </button>
+            </div>
+        </div>
+    }
+
+    if (ViewBag.Posts.Count == 0)
+    {
+        <h3> Nu mai exista postari de adaugat in acest album </h3>
+    }
+}

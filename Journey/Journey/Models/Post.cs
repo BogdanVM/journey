@@ -25,6 +25,7 @@ namespace Journey.Models
         [Required(ErrorMessage = "Nu ati selectat o categorie")]
         public int CategoryId { get; set; }
 
+        public int? AlbumId { get; set; }
         public string UserId { get; set; }
         public DateTime Date { get; set; }
 
@@ -32,9 +33,9 @@ namespace Journey.Models
 
         public IEnumerable<SelectListItem> Categories { get; set; }
 
+        public virtual Album Album { get; set; }
         public virtual Category Category { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual ICollection<Comment> Comment { get; set; }
-        public virtual ICollection<Album> Album { get; set; }
     }
 }

@@ -1,0 +1,28 @@
+﻿@model Journey.Models.Album
+
+<div class="panel-heading article-heading">
+    <span class="font-roboto article-title">@Model.Name</span>
+</div>
+
+<div class="panel-body">
+    <br />
+    <div class="article-content-wrapper">
+        @foreach (var post in ViewBag.Posts)
+        {
+            <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size">
+        }
+
+        @if (ViewBag.Posts.Count == 0)
+        {
+            <h4> Nu exista postari in acest album </h4>
+        }
+    </div>
+</div>
+<div class="article-meta">
+    <div>
+        <i class="glyphicon glyphicon-user"></i>
+        <strong> @Model.User.UserName </strong>
+    </div>
+</div>
+
+

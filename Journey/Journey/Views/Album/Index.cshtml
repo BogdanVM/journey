@@ -1,8 +1,26 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Albumele mele";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+@foreach (Journey.Models.Album album in ViewBag.Albums)
+{
+    <div class="panel panel-default">
+        @Html.Hidden("AlbumId", album.AlbumId)
+
+        <h3> @album.Name </h3>
+
+        <a class="btn btn-success" href="/Album/Show/@album.AlbumId">Vizualizare album</a>
+        <a class="btn btn-success" href="/Album/Edit/@album.AlbumId">Modifica album</a>
+    </div>
+    <br />
+}
 
 <a href="/Album/New" class="btn btn-primary">Creeaza un nou album</a>

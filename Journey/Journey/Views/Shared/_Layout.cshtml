@@ -17,13 +17,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Journey", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Acasa", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Afisare categorii", "Index", "Category")</li>
-                    <li>@Html.ActionLink("Albumele mele", "Index", "Album")</li>
+                    <li>@Html.ActionLink("Categorii", "Index", "Category")</li>
 
                     @if (User.IsInRole("Administrator"))
                     {
@@ -33,8 +32,8 @@
 
                     @if (User.IsInRole("User"))
                     {
-
-                        <li>@Html.ActionLink("Afisare postari", "Index", "Post")</li>
+                        <li>@Html.ActionLink("Albumele mele", "Index", "Album")</li>
+                        <li>@Html.ActionLink("Profilul meu", "Index", "Post")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

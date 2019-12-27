@@ -24,7 +24,6 @@ namespace Journey.Controllers
             return View();
         }
 
-        [Authorize(Roles = "User,Administrator")]
         public ActionResult Show(int id)
         {
             Post post = db.Posts.Find(id);
@@ -63,7 +62,7 @@ namespace Journey.Controllers
         [ValidateInput(false)]
         public ActionResult New(Post post)
         {
-            string fileName = post.UserId.ToString() + "_" + 
+            string fileName = post.UserId.ToString() + "_" +
                 DateTime.Now.ToString("dd.MM.yyyy_hh.mm.ss") + ".jpg";
             post.Categories = GetAllCategories();
             post.Photo = fileName;
@@ -192,6 +191,72 @@ namespace Journey.Controllers
                 return RedirectToAction("Index");
             }
 
+        }
+
+        [Authorize(Roles = "User,Administrator")]
+        public ActionResult AddToAlbum(int id)
+        {
+            Album album = db.Albums.Find(id);
+
+            ViewBag.Posts = db.Posts.Include("User")
+                                    .ToList()
+                                    .Where(p => p.AlbumId != id);
+
+            if (album.UserId == User.Identity.GetUserId() ||
+                User.IsInRole("Administrator"))
+            {
+                return View();
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui album care nu va apartine!";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "User,Administrator")]
+        public ActionResult AddToAlbum(int id, string albumid, string postid)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Post post = db.Posts.Find(Convert.ToInt32(postid));
+
+                    if (post.UserId == User.Identity.GetUserId() ||
+                        User.IsInRole("Administrator"))
+                    {
+                        post.AlbumId = Convert.ToInt32(albumid);
+
+                        if (TryUpdateModel(post))
+                        {
+                            post.AlbumId = Convert.ToInt32(albumid);
+                            db.SaveChanges();
+                            TempData["message"] = "Postarea a fost adaugata la album!";
+                        }
+
+                        return RedirectToAction("Index", "Album");
+                    }
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine!";
+                        return RedirectToAction("Index", "Album");
+                    }
+
+                }
+                else
+                {
+                    TempData["message"] = "Aici sunt";
+                    return View();
+                }
+
+            }
+            catch (NullReferenceException e)
+            {
+                TempData["message"] = e.Message;
+                return View();
+            }
         }
 
         [NonAction]

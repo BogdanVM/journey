@@ -5,6 +5,11 @@
 
 <h2>@ViewBag.Title</h2>
 
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
 @using (Html.BeginForm(actionName: "Edit", controllerName: "Category"))
 {
     @Html.Hidden("CategoryId", Model.CategoryId)

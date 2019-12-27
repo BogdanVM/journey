@@ -6,7 +6,9 @@
     <div class="row">
         @foreach(var post in ViewBag.Posts)
         {
-            <img src=@Url.Content("~/Images/" + post.Photo) />
+            <a href="/Post/Show/@post.PostId">
+                <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size" />
+            </a>
         }
     </div>
 </div>

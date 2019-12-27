@@ -11,9 +11,7 @@ namespace Journey.Models
         [Key]
         public int AlbumId { get; set; }
 
-        public string AlbumName { get; set; }
-
-        public ICollection<int> PostIds { get; set; }
+        public string Name { get; set; }
         
         public string UserId { get; set; }
 
