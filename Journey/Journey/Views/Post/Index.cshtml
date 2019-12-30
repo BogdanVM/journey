@@ -5,17 +5,22 @@
 
 <h2>@ViewBag.Title</h2>
 
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
 @foreach (Journey.Models.Post post in ViewBag.Posts)
 {
-<div class="panel panel-default">
-    @Html.Hidden("PostId", post.PostId)
+    <div class="panel panel-default">
+        @Html.Hidden("PostId", post.PostId)
 
-    <h3> @post.Description </h3>
-    <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size"/>
+        <h3> @post.Description </h3>
+        <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size" />
 
-    <a class="btn btn-success" href="/Post/Show/@post.PostId">Afisare postare</a>
-    <a class="btn btn-success" href="/Post/Edit/@post.PostId">Editare postare</a>
-</div>
+        <a class="btn btn-success" href="/Post/Show/@post.PostId">Afisare postare</a>
+        <a class="btn btn-success" href="/Post/Edit/@post.PostId">Editare postare</a>
+    </div>
     <br />
 }
 

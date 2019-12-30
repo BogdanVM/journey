@@ -1,4 +1,5 @@
 ﻿using Journey.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,6 @@ using System.Web.Mvc;
 
 namespace Journey.Controllers
 {
-    [Authorize(Roles = "Administrator")]
     public class CategoryController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
@@ -21,22 +21,35 @@ namespace Journey.Controllers
             var categories = from category in db.Categories
                              orderby category.CategoryName
                              select category;
+            
             ViewBag.Categories = categories;
+            ViewBag.Posts = db.Posts.ToLookup(p => p.CategoryId);
+
+            ViewBag.esteAdmin = User.IsInRole("Administrator");
+
             return View();
         }
 
         public ActionResult Show(int id)
         {
             Category category = db.Categories.Find(id);
+            
+            ViewBag.esteAdmin = User.IsInRole("Administrator");
+            ViewBag.Posts = db.Posts.ToList()
+                                    .Where(p => p.CategoryId == id)
+                                    .ToList();
+
             return View(category);
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult New()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public ActionResult New(Category cat)
         {
             try
@@ -59,6 +72,7 @@ namespace Journey.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int id)
         {
             Category category = db.Categories.Find(id);
@@ -66,6 +80,7 @@ namespace Journey.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int id, Category requestCategory)
         {
             try
@@ -93,6 +108,7 @@ namespace Journey.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int id)
         {
             Category category = db.Categories.Find(id);

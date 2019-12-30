@@ -5,15 +5,36 @@
 
 <h2>@ViewBag.Title</h2>
 
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
 <p>@Model.CategoryName</p>
 
-@using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @Model.CategoryId }))
+@if (ViewBag.esteAdmin)
 {
+    using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @Model.CategoryId }))
+    {
 
-    @Html.HttpMethodOverride(HttpVerbs.Delete)
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
 
-    <button class="btn btn-success" type="submit">Sterge categoria</button>
+        <button class="btn btn-success" type="submit">Sterge categoria</button>
+    }
 }
+
+<div>
+    @foreach (Journey.Models.Post post in ViewBag.Posts)
+    {
+        <img src=@Url.Content("~/Images/" + post.Photo) class="img-size img-thumbnail" />
+    }
+</div>
+
+@if (ViewBag.Posts.Count == 0)
+{
+    <h3> Nu exista postari in aceasta categorie </h3>
+}
+
 <br />
 <a class="btn btn-success" href="/Category/Index/">Afisare lista categorii</a>
 

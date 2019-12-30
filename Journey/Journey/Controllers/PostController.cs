@@ -38,6 +38,10 @@ namespace Journey.Controllers
             ViewBag.esteAdmin = User.IsInRole("Administrator");
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
 
+            ViewBag.Comments = db.Comments
+                                 .ToList()
+                                 .Where(c => c.PostId == id)
+                                 .ToList();
 
             return View(post);
 
@@ -200,7 +204,8 @@ namespace Journey.Controllers
 
             ViewBag.Posts = db.Posts.Include("User")
                                     .ToList()
-                                    .Where(p => p.AlbumId != id);
+                                    .Where(p => p.AlbumId != id)
+                                    .ToList();
 
             if (album.UserId == User.Identity.GetUserId() ||
                 User.IsInRole("Administrator"))
@@ -258,6 +263,11 @@ namespace Journey.Controllers
                 return View();
             }
         }
+
+        //public ActionResult GroupByCategory()
+        //{
+
+        //}
 
         [NonAction]
         public IEnumerable<SelectListItem> GetAllCategories()

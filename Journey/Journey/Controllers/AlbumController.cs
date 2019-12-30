@@ -79,5 +79,66 @@ namespace Journey.Controllers
                 return View(album);
             }
         }
+
+        [Authorize(Roles = "User,Administrator")]
+        public ActionResult Edit(int id)
+        {
+            Album album = db.Albums.Find(id);
+
+            if (album.UserId == User.Identity.GetUserId() ||
+                User.IsInRole("Administrator"))
+            {
+                return View(album);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui album care nu va apartine!";
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "User,Administrator")]
+        [ValidateInput(false)]
+        public ActionResult Edit(int id, string name)
+        {
+            Album album = db.Albums.Find(id);
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (album.UserId == User.Identity.GetUserId() ||
+                        User.IsInRole("Administrator"))
+                    {
+                        if (TryUpdateModel(album))
+                        {
+                            album.Name = Sanitizer.GetSafeHtmlFragment(name);
+                            db.SaveChanges();
+                            TempData["message"] = "Albumul a fost modificat!";
+                        }
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui comentariu care nu va apartine!";
+                        return RedirectToAction("Index");
+                    }
+
+                }
+                else
+                {
+                    TempData["message"] = "Aici sunt";
+                    return View(album);
+                }
+
+            }
+            catch (Exception e)
+            {
+                TempData["message"] = e.Message;
+                return View(album);
+            }
+        }
     }
 }

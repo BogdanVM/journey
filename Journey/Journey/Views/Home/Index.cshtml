@@ -2,9 +2,14 @@
     ViewBag.Title = "Home Page";
 }
 
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
 <div class="container" id="home-images">
     <div class="row">
-        @foreach(var post in ViewBag.Posts)
+        @foreach (var post in ViewBag.Posts)
         {
             <a href="/Post/Show/@post.PostId">
                 <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size" />
