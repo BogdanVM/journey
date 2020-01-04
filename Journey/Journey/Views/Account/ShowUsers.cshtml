@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Lista utilizatorilor";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+<div>
+    @foreach(Journey.Models.ApplicationUser user in ViewBag.Users)
+    {
+        <div class="row">
+            <label> @user.UserName </label>
+            <a href="/Account/ShowProfile/@user.Id" class="btn btn-default"> Afiseaza </a>
+        </div>
+    }
+</div>

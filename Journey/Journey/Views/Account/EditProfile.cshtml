@@ -1,0 +1,39 @@
+﻿@model Journey.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Editeaza profilul";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+@using (Html.BeginForm(actionName: "EditProfile", controllerName: "Account"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.HiddenFor(m => m.Id)
+
+    <div>
+        <div class="row">
+            <label> Nume utilizator: </label>
+            <input type="text" name="username" value=@Model.UserName class="form-control" />
+        </div>
+
+        <div class="row">
+            <label> Email: </label>
+            <input type="text" name="email" value=@Model.Email class="form-control" />
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="row">
+            <label> Numar de telefon: </label>
+            <input type="text" name="phonenumber" value=@Model.PhoneNumber class="form-control" />
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-danger"> Salveaza modificarile </button>
+    </div>
+}

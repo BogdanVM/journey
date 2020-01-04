@@ -1,0 +1,31 @@
+﻿@model Journey.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Profilul meu";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+<div>
+    <div class="form-control">
+        <label> Nume utilizator: </label>
+        <label> @Model.UserName </label>
+    </div>
+
+    <div class="form-control">
+        <label> Email: </label>
+        <label> @Model.Email </label>
+    </div>
+
+    <div class="form-control">
+        <label> Numar de telefon: </label>
+        <label> @Model.PhoneNumber </label>
+    </div>
+
+    <a href="/Account/EditProfile/@Model.Id" class="btn btn-sm btn-info"> Editeaza profilul </a>
+</div>

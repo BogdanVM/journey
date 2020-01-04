@@ -1,0 +1,29 @@
+﻿@model string
+@{
+    ViewBag.Title = "Cauta poze";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+@using (Html.BeginForm("Search", "Post", FormMethod.Post, new { id = "search-form"}))
+{
+    <input type="text" name="searchPhrase" class="form-control" value="@Model" />
+    <button type="submit" class="btn btn-default" id="search-btn"> Cauta </button>
+}
+
+@foreach (Journey.Models.Post post in ViewBag.Posts)
+{
+    <a href="/Post/Show/@post.PostId">
+        <img src=@Url.Content("/Images/" + post.Photo) class="img-thumbnail img-size" />
+    </a>
+}
+
+@if (ViewBag.Posts.Count == 0)
+{
+    <h3> Nu a fost gasita nicio postare </h3>
+}

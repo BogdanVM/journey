@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -26,14 +27,15 @@
 
                     @if (User.IsInRole("Administrator"))
                     {
-                        <li>@Html.ActionLink("Afisare postari", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Afisare utilizatori", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Afisare utilizatori", "ShowUsers", "Account")</li>
+                        <li>@Html.ActionLink("Cautare", "Search", "Post")</li>
                     }
 
                     @if (User.IsInRole("User"))
                     {
                         <li>@Html.ActionLink("Albumele mele", "Index", "Album")</li>
-                        <li>@Html.ActionLink("Profilul meu", "Index", "Post")</li>
+                        <li> <a href="/Account/ShowProfile/@User.Identity.GetUserId()"> Profilul meu </a> </li>
+                        <li>@Html.ActionLink("Cautare", "Search", "Post")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -51,6 +53,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/load_image.js")
+    <script src="https://cdn.scaleflex.it/plugins/filerobot-image-editor/3/filerobot-image-editor.min.js"></script>
+    @Scripts.Render("~/Scripts/edit_image.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

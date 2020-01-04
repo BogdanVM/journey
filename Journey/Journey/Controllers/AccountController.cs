@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Journey.Models;
+using Microsoft.Security.Application;
 
 namespace Journey.Controllers
 {
@@ -17,6 +18,7 @@ namespace Journey.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = ApplicationDbContext.Create();
 
         public AccountController()
         {
@@ -52,6 +54,61 @@ namespace Journey.Controllers
             }
         }
 
+        [Authorize(Roles = "User,Administrator")]
+        public ActionResult ShowProfile(string id)
+        {
+            var user = db.Users.Find(id);
+            return View(user);
+        }
+
+        [Authorize(Roles = "User,Administrator")]
+        [ValidateInput(false)]
+        public ActionResult EditProfile(string id)
+        {
+            var user = db.Users.Find(id);
+            return View(user);
+        }
+
+        [Authorize(Roles = "User,Administrator")]
+        [ValidateInput(false)]
+        [HttpPut]
+        public ActionResult EditProfile(string id, ApplicationUser requestUser)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ApplicationUser user = db.Users.Find(id);
+                    if (TryUpdateModel(user))
+                    {
+                        user.Email = Sanitizer.GetSafeHtmlFragment(requestUser.Email);
+                        user.UserName = Sanitizer.GetSafeHtmlFragment(requestUser.UserName);
+                        user.PhoneNumber = Sanitizer.GetSafeHtmlFragment(requestUser.PhoneNumber);
+
+                        TempData["message"] = "Profilul a fost modificat!";
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("ShowProfile", "Account", new { id = user.Id } );
+                }
+                else
+                {
+                    return View(requestUser);
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["message"] = e.Message;
+                return View(requestUser);
+            }
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public ActionResult ShowUsers()
+        {
+            ViewBag.Users = db.Users.ToList();
+            return View();
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -75,7 +132,8 @@ namespace Journey.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var user = SignInManager.UserManager.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+            var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,7 +209,7 @@ namespace Journey.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = "" };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

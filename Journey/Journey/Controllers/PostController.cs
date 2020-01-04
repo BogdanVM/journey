@@ -264,10 +264,21 @@ namespace Journey.Controllers
             }
         }
 
-        //public ActionResult GroupByCategory()
-        //{
+        [Authorize(Roles = "User,Administrator")]
+        public ActionResult Search()
+        {
+            ViewBag.Posts = db.Posts.ToList();
+            return View("/Views/Post/Search.cshtml", null, "");
+        }
 
-        //}
+        [HttpPost]
+        [Authorize(Roles = "User,Administrator")]
+        public ActionResult Search(string searchPhrase)
+        {
+            ViewBag.Posts = db.Posts.Where(p => p.Description.ToLower().Contains(searchPhrase.ToLower()))
+                                    .ToList();
+            return View("/Views/Post/Search.cshtml", null, searchPhrase);
+        }
 
         [NonAction]
         public IEnumerable<SelectListItem> GetAllCategories()
