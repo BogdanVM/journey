@@ -19,7 +19,7 @@ namespace Journey.Controllers
 
             var posts = (from post in db.Posts select post);
 
-            ViewBag.Posts = posts.OrderBy(p => p.Date);
+            ViewBag.Posts = posts.OrderByDescending(p => p.Date);
 
             return View();
         }

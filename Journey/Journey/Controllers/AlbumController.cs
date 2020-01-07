@@ -140,5 +140,27 @@ namespace Journey.Controllers
                 return View(album);
             }
         }
+
+        [HttpDelete]
+        [Authorize(Roles = "User,Administrator")]
+        public ActionResult Delete(int id)
+        {
+            Album album = db.Albums.Find(id);
+            if (album.UserId == User.Identity.GetUserId() ||
+                User.IsInRole("Administrator"))
+            {
+                db.Albums.Remove(album);
+                db.SaveChanges();
+
+                TempData["message"] = "Albumul a fost sters!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa stergeti un album care nu va apartine!";
+                return RedirectToAction("Index");
+            }
+
+        }
     }
 }

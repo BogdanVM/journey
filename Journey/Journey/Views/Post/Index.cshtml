@@ -3,25 +3,30 @@
     ViewBag.Title = "Postarile mele";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-@foreach (Journey.Models.Post post in ViewBag.Posts)
-{
-    <div class="panel panel-default">
-        @Html.Hidden("PostId", post.PostId)
+<div class="row text-center">
+    @foreach (Journey.Models.Post post in ViewBag.Posts)
+    {
+        <div class="col-md-4" style="margin-top: 25px;">
+            <h3> @post.Description </h3>
+            <a href="/Post/Show/@post.PostId">
+                <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size" />
+            </a>
+        </div>
 
-        <h3> @post.Description </h3>
-        <img src=@Url.Content("~/Images/" + post.Photo) class="img-thumbnail img-size" />
+    }
 
-        <a class="btn btn-success" href="/Post/Show/@post.PostId">Afisare postare</a>
-        <a class="btn btn-success" href="/Post/Edit/@post.PostId">Editare postare</a>
-    </div>
-    <br />
-}
+</div>
 
-<a class="btn btn-sm btn-success" href="/Post/New">Adauga o noua postare</a>
+<div class="text-center">
+    <a class="font-title-size" href="/Post/New"> <i class="glyphicon glyphicon-plus-sign"> </i> </a>
+</div>

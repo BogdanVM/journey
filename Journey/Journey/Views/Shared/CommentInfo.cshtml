@@ -1,30 +1,46 @@
-﻿@model Journey.Models.Comment
+﻿@using System.Globalization
 
-<div class="panel">
+@model Journey.Models.Comment
+
+<div class="panel solid-border text-left">
     <div class="panel-heading article-heading">
-        <span class="font-roboto article-title">@Model.Date</span>
+        <span class="montserrat article-title">@String.Concat(Model.Date.Day.ToString() + "-" + Model.Date.ToString("MMM", CultureInfo.InvariantCulture) + "-" + Model.Date.Year.ToString())</span>
     </div>
 
     <div class="panel-body">
         <br />
-        <div class="article-content-wrapper">
+        <div class="article-content-wrapper roboto" style="font-size: 1.5em;">
             @Model.Content
         </div>
 
-        @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
-                || ViewBag.esteAdmin)
-        {
-            <a href="/Comment/Edit/@Model.CommentId"> <span><i class="glyphicon glyphicon-edit"></i> </span> </a>
-            using (Html.BeginForm(actionName: "Delete", controllerName: "Comment", method: FormMethod.Post, routeValues: new { id = @Model.CommentId }))
+        <div class="row">
+            @if (ViewBag.afisareButoane == true)
             {
+                if (ViewBag.utilizatorCurent == Model.UserId || ViewBag.esteAdmin)
+                {
+                    <div class="col-lg-1">
+                        <a href="/Comment/Edit/@Model.CommentId" class="btn btn-info circle-button margins"> <span><i class="glyphicon glyphicon-edit"></i> </span> </a>
+                    </div>
+                }
 
-                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button class="btn btn-danger" type="submit"><i class="glyphicon glyphicon-remove"></i></button>
+                if (ViewBag.proprietarulPostarii || ViewBag.utilizatorulCurent == Model.UserId 
+                    || ViewBag.esteAdmin)
+                {
+                    using (Html.BeginForm(actionName: "Delete", controllerName: "Comment", method: FormMethod.Post, routeValues: new { id = @Model.CommentId }))
+                    {
 
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+                        <div class="col-lg-1">
+                            <button class="btn btn-danger circle-button margins" type="submit"><i class="glyphicon glyphicon-remove"></i></button>
+                        </div>
+                    }
+                }
             }
-        }
+        </div>
+
     </div>
-    <div class="article-meta">
+    <div class="article-meta" style="margin-left: 15px;">
         <div>
             <i class="glyphicon glyphicon-user"></i>
             <strong> @Model.User.UserName </strong>

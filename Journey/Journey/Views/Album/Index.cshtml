@@ -3,24 +3,28 @@
     ViewBag.Title = "Albumele mele";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-@foreach (Journey.Models.Album album in ViewBag.Albums)
-{
-    <div class="panel panel-default">
-        @Html.Hidden("AlbumId", album.AlbumId)
+<div class="text-center" style="margin-top: 50px;">
+    @foreach (Journey.Models.Album album in ViewBag.Albums)
+    {
+        <div>
+            @Html.Hidden("AlbumId", album.AlbumId)
 
-        <h3> @album.Name </h3>
+            <a href="/Album/Show/@album.AlbumId">
+                <h3> @album.Name </h3>
+            </a>
+        </div>
+        <br />
+    }
 
-        <a class="btn btn-success" href="/Album/Show/@album.AlbumId">Vizualizare album</a>
-        <a class="btn btn-success" href="/Album/Edit/@album.AlbumId">Modifica album</a>
-    </div>
-    <br />
-}
-
-<a href="/Album/New" class="btn btn-primary">Creeaza un nou album</a>
+    <a href="/Album/New" class="btn btn-primary">Creeaza un nou album</a>
+</div>

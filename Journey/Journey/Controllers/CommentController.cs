@@ -13,10 +13,9 @@ namespace Journey.Controllers
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
 
-
-        [HttpPost]
         [Authorize(Roles = "User,Administrator")]
         [ValidateInput(false)]
+        [HttpPost]
         public ActionResult New(int id, string content)
         {
             Post post = db.Posts.Find(id);

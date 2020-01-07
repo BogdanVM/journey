@@ -1,44 +1,49 @@
 ﻿@model Journey.Models.Category
-@{
-    ViewBag.Title = "Afisare categorie";
-}
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+
+    <h2 class="text-center font-title-size page-title">
+        @Model.CategoryName
+        @if (ViewBag.esteAdmin)
+        {
+            <a href="/Category/Edit/@Model.CategoryId"> <i class="glyphicon glyphicon-edit"></i> </a>
+        }
+    </h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-<p>@Model.CategoryName</p>
+<div class="text-center">
+    <div class="row" style="margin-top: 20px;">
+        @foreach (Journey.Models.Post post in ViewBag.Posts)
+        {
+            <div class="col-sm-4" style="margin: 15px 0 15px 0;">
+                <a href="/Post/Show/@post.PostId">
+                    <img src=@Url.Content("~/Images/" + post.Photo) class="img-size img-thumbnail" />
+                </a>
+            </div>
+        }
+    </div>
 
-@if (ViewBag.esteAdmin)
-{
-    using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @Model.CategoryId }))
+    @if (ViewBag.Posts.Count == 0)
     {
-
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-
-        <button class="btn btn-success" type="submit">Sterge categoria</button>
+        <h3> Nu exista postari in aceasta categorie </h3>
     }
-}
 
-<div>
-    @foreach (Journey.Models.Post post in ViewBag.Posts)
+    <br />
+    @if (ViewBag.esteAdmin)
     {
-        <img src=@Url.Content("~/Images/" + post.Photo) class="img-size img-thumbnail" />
+        using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @Model.CategoryId }))
+        {
+
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+            <button class="btn btn-danger" type="submit">Sterge categoria</button>
+        }
     }
+
 </div>
-
-@if (ViewBag.Posts.Count == 0)
-{
-    <h3> Nu exista postari in aceasta categorie </h3>
-}
-
-<br />
-<a class="btn btn-success" href="/Category/Index/">Afisare lista categorii</a>
-
-<br />
-<hr />
-<br />
-

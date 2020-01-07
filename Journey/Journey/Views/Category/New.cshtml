@@ -3,25 +3,30 @@
     ViewBag.Title = "Adaugare Categorie";
 }
 
-<h2>Adaugare Categorie</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-@using (Html.BeginForm(actionName: "New", controllerName: "Category"))
-{
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div class="text-center" style="margin-top: 30px;">
+    @using (Html.BeginForm(actionName: "New", controllerName: "Category"))
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-    @Html.Label("CategoryName", "Denumire categorie")
-    <br />
+        @Html.Label("CategoryName", "Denumire categorie")
+        <br />
 
-    @Html.TextBox("CategoryName", null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
-    <br />
-    <br />
+        @Html.TextBox("CategoryName", null, new { @class = "input-text-custom" })
+        @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
+        <br />
+        <br />
 
-    <button class="btn btn-success" type="submit">Adauga categorie</button>
-}
+        <button class="btn btn-danger" type="submit">Adauga categorie</button>
+    }
 
+</div>

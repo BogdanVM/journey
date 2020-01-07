@@ -4,28 +4,33 @@
     ViewBag.Title = "Profilul meu";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-<div>
-    <div class="form-control">
-        <label> Nume utilizator: </label>
-        <label> @Model.UserName </label>
+<div class="text-center" style="margin-top: 50px;">
+    <div>
+        <h4 class="inline-block roboto"> Nume utilizator: </h4>
+        <label class="page-title" style="margin-left: 10px;"> @Model.UserName </label>
     </div>
 
-    <div class="form-control">
-        <label> Email: </label>
-        <label> @Model.Email </label>
+    <div>
+        <h4 class="inline-block roboto"> Email: </h4>
+        <label class="page-title" style="margin-left: 10px;"> @Model.Email </label>
     </div>
 
-    <div class="form-control">
-        <label> Numar de telefon: </label>
-        <label> @Model.PhoneNumber </label>
+    <div>
+        <h4 class="inline-block roboto"> Numar de telefon: </h4>
+        <label class="page-title" style="margin-left: 10px;"> @Model.PhoneNumber </label>
     </div>
 
-    <a href="/Account/EditProfile/@Model.Id" class="btn btn-sm btn-info"> Editeaza profilul </a>
+    <a href="/Account/EditProfile/@Model.Id" class="font-title-size">
+        <i class="glyphicon glyphicon-edit" style="margin-top: 50px;"></i>
+    </a>
 </div>

@@ -1,40 +1,41 @@
 ﻿@model Journey.Models.Album
 
-@{
-    ViewBag.Title = "Afisare album";
-}
-
-<h2>@ViewBag.Title</h2>
-
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-<div class="panel panel-default">
+<div class="panel panel-default" style="border: 0;">
+    <div class="row">
+        <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    </div>
     @Html.Partial("AlbumInfo", Model)
 
     @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
         || ViewBag.esteAdmin)
     {
 
-    <div class="panel-footer article-panel-footer">
-        <a class="btn btn-primary" href="/Album/Edit/@Model.AlbumId">Modifica numele albumului</a>
-
-        @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
-        || ViewBag.esteAdmin)
-        {
-
-            using (Html.BeginForm(actionName: "Delete", controllerName: "Album", method: FormMethod.Post, routeValues: new { id = @Model.AlbumId }))
+        <div class="panel-footer article-panel-footer row text-center">
+            <div class="col-sm-4">
+                <a class="btn btn-primary" href="/Album/Edit/@Model.AlbumId">Modifica numele albumului</a>
+            </div>
+            @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
+            || ViewBag.esteAdmin)
             {
 
-                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button class="btn btn-danger" type="submit">Sterge album</button>
+                using (Html.BeginForm(actionName: "Delete", controllerName: "Album", method: FormMethod.Post, routeValues: new { id = @Model.AlbumId }))
+                {
 
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <div class="col-sm-4">
+                        <button class="btn btn-danger" type="submit">Sterge album</button>
+                    </div>
+                }
             }
-        }
 
-        <a class="btn btn-primary" href="/Post/AddToAlbum/@Model.AlbumId">Adauga o noua postare</a>
-    </div>
+            <div class="col-sm-4">
+                <a class="btn btn-default" href="/Post/AddToAlbum/@Model.AlbumId">Adauga o noua postare</a>
+            </div>
+        </div>
     }
 </div>

@@ -4,18 +4,23 @@
     ViewBag.Title = "Editeaza comentariul";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Comment", routeValues: new { id = Model.CommentId }))
-{
-    @Html.HttpMethodOverride(HttpVerbs.Put)
+<div class="text-center">
+    @using (Html.BeginForm(actionName: "Edit", controllerName: "Comment", routeValues: new { id = Model.CommentId }))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
 
-    <input type="text" name="content" value=@Model.Content />
+        <input type="text" class="input-text-custom" name="content" value="@Model.Content" />
 
-    <button type="submit" class="btn btn-success"> Editeaza </button>
-}
+        <button type="submit" class="btn btn-danger"> Editeaza </button>
+    }
+</div>

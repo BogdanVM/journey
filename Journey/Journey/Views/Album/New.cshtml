@@ -4,27 +4,31 @@
     ViewBag.Title = "Nou album";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-@using (Html.BeginForm("New", "Album"))
-{
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div class="text-center" style="margin-top: 30px;">
+    @using (Html.BeginForm("New", "Album"))
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-    @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.UserId)
 
-    @Html.Label("Name", "Nume album")
-    <br />
+        @Html.Label("Name", "Nume album")
+        <br />
 
-    @Html.TextBox("Name", null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        @Html.TextBox("Name", null, new { @class = "input-text-custom" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
 
-    <br />
+        <br />
 
-    <button class="btn btn-sm btn-success" type="submit">Creeaza album</button>
-    <a href="/Album/Index/" class="btn btn-sm btn-primary"> Inapoi </a>
-}
+        <button class="btn btn-danger" type="submit" style="margin-top: 30px;">Creeaza album</button>
+    }
+</div>

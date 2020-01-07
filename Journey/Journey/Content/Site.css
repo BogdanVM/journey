@@ -1,4 +1,6 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css?family=Caveat|Montserrat|Roboto&display=swap');
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -26,6 +28,40 @@ textarea {
 
 /* CUSTOM STYLING */
 
+.font-logo {
+    border-right: 1px solid #fff;
+    font-family: 'Caveat', cursive;
+    font-size: 2.5em;
+}
+
+.font-title-size {
+    font-size: 2.5em;
+}
+
+.navbar-nav > li {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.25em;
+    margin-left: 10px;
+}
+
+.page-title {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.roboto {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+}
+
+.montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.img-fullscreen-size {
+    height: 500px;
+    width: 550px;
+}
+
 .row > img {
     height: 150px;
     margin: 0 15px 0 15px;
@@ -41,4 +77,29 @@ textarea {
 .img-size {
     height: 100px;
     width: 150px;
+}
+
+.input-text-custom {
+    background: #fad4d4;
+    border: 0;
+    border-radius: 8px 8px;
+    height: 35px;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.solid-border {
+    border: 1px solid #000;
+}
+
+.circle-button {
+    border-radius: 50px 50px;
+}
+
+.margins {
+    margin: 15px 15px 0 0;
+}
+
+.inline-block {
+    display: inline-block;
 }

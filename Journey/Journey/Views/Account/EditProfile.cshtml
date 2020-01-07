@@ -4,36 +4,41 @@
     ViewBag.Title = "Editeaza profilul";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 
 @if (TempData.ContainsKey("message"))
 {
     <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
-@using (Html.BeginForm(actionName: "EditProfile", controllerName: "Account"))
-{
-    @Html.HttpMethodOverride(HttpVerbs.Put)
-    @Html.HiddenFor(m => m.Id)
+<div class="text-center" style="margin-top: 50px;">
+    @using (Html.BeginForm(actionName: "EditProfile", controllerName: "Account"))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        @Html.HiddenFor(m => m.Id)
 
-    <div>
-        <div class="row">
-            <label> Nume utilizator: </label>
-            <input type="text" name="username" value=@Model.UserName class="form-control" />
+        <div>
+            <div class="row" style="margin-top: 25px;">
+                <label> Nume utilizator: </label>
+                <input type="text" name="username" class="input-text-custom" value=@Model.UserName />
+            </div>
+
+            <div class="row" style="margin-top: 25px;">
+                <label> Email: </label>
+                <input type="text" name="email" class="input-text-custom" value=@Model.Email />
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="row" style="margin-top: 25px;">
+                <label> Numar de telefon: </label>
+                <input type="text" name="phonenumber" class="input-text-custom" value=@Model.PhoneNumber />
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-danger" style="margin-top: 50px;"> Salveaza modificarile </button>
         </div>
-
-        <div class="row">
-            <label> Email: </label>
-            <input type="text" name="email" value=@Model.Email class="form-control" />
-            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="row">
-            <label> Numar de telefon: </label>
-            <input type="text" name="phonenumber" value=@Model.PhoneNumber class="form-control" />
-            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
-        </div>
-
-        <button type="submit" class="btn btn-danger"> Salveaza modificarile </button>
-    </div>
-}
+    }
+</div>

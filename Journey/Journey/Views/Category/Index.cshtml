@@ -3,7 +3,10 @@
     ViewBag.Title = "Lista categorii";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <a href="javascript:void(0);" onclick="history.go(-1);" class="font-title-size" style="margin-left: 20px;"> <i class="glyphicon glyphicon-arrow-left"></i></a>
+    <h2 class="text-center font-title-size page-title">@ViewBag.Title</h2>
+</div>
 <br />
 
 @if (TempData.ContainsKey("message"))
@@ -11,25 +14,34 @@
     <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
 }
 
-@foreach (var category in ViewBag.Categories)
+
+@foreach (Journey.Models.Category category in ViewBag.Categories)
 {
-    <div class="container">
-        @Html.Label("CategoryName", "Denumire categorie")
-        <p>@category.CategoryName</p>
-        <a class="btn btn-success" href="/Category/Show/@category.CategoryId">Afisare categorie</a>
+    <div class="text-center">
 
-        @if (ViewBag.esteAdmin)
-        {
-            <a class="btn btn-success" href="/Category/Edit/@category.CategoryId">Editare categorie</a>
-        }
-        <br />
-        <hr />
-        <br />
+        <a href="/Category/Show/@category.CategoryId">
+            <div class="input-text-custom">
+                <strong><label class="roboto">@category.CategoryName</label> </strong>
+            </div>
+        </a>
 
-        <div>
+        <div class="row">
+            @{ int count = 0; }
+
             @foreach (Journey.Models.Post post in ViewBag.Posts[category.CategoryId])
             {
-                <img src=@Url.Content("~/Images/" + post.Photo) class="img-size img-thumbnail" />
+                if (count > 8)
+                {
+                    break;
+                }
+
+                <div class="col-sm-4" style="margin: 15px 0 15px 0;">
+                    <a href="/Post/Show/@post.PostId">
+                        <img src=@Url.Content("~/Images/" + post.Photo) class="img-size img-thumbnail" />
+                    </a>
+                </div>
+
+                count++;
             }
         </div>
     </div>
@@ -37,7 +49,9 @@
 <br />
 @if (ViewBag.esteAdmin)
 {
-    <a class="btn btn-info" href="/Category/New">Adauga o noua categorie</a>
+    <div class="text-center">
+        <a class="font-title-size" href="/Category/New"><i class="glyphicon glyphicon-plus-sign"></i></a>
+    </div>
 }
 <br />
 <br />

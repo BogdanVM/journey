@@ -18,7 +18,8 @@ namespace Journey.Controllers
         {
             var posts = db.Posts.Include("Category").Include("User").Include("Comment")
                                 .ToList()
-                                .Where(p => p.UserId.Equals(User.Identity.GetUserId()));
+                                .Where(p => p.UserId.Equals(User.Identity.GetUserId()))
+                                .OrderByDescending(p => p.Date);
 
             ViewBag.Posts = posts;
             return View();
@@ -37,6 +38,8 @@ namespace Journey.Controllers
 
             ViewBag.esteAdmin = User.IsInRole("Administrator");
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
+            ViewBag.autentificat = User.Identity.IsAuthenticated;
+            ViewBag.proprietarulPostarii = post.UserId.Equals(ViewBag.utilizatorCurent);
 
             ViewBag.Comments = db.Comments
                                  .ToList()
